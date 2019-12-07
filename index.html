@@ -23,8 +23,31 @@ layout: home
     <br>
     <h3 style="font-weight: bold">How to Run Code:</h3>
     <p>
-        After unzipping the folder and moving the contents to Heracles, 
+        *We've written custom scripts to make it easier to compile and run
+        our code. Sequential is used in the examples, but replace script names appropriately.
+        <br><br>
     </p>
+        Give permission to custom scripts:
+        <ul style="list-style-type:none; font-family:'Courier New',Courier,monospace">
+            <li>chmod 755 c_seq r_seq</li>
+        </ul>
+        <br>
+        Compile source code using:
+        <ul style="list-style-type:none; font-family:'Courier New',Courier,monospace">
+            <li>./c_seq</li>
+        </ul>
+        <br>
+        Run using:
+        <ul style="list-style-type:none; font-family:'Courier New',Courier,monospace">
+            <li>./r_seq [size] [nthreads (openMP only)]</li>
+        </ul>
+        <p>
+            *size = desired matrix size, nthreads = number of threads to use
+            To change MPI ntasks, edit mpi_slurm.sh first
+        </p>
+        
+
+    
     <br><h2 style="font-weight: bold">Sequential</h2>
     <a href="https://seclay2.github.io/LUDecomposition/files/Sequential.zip" >Download Sequential Code</a><br>
     <p>
