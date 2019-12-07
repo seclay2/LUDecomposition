@@ -23,6 +23,9 @@ layout: home
     <br>
     <h3 style="font-weight: bold">How to Run Code:</h3>
     <p>
+        We found the best matrix size for comparison testing to be 3840, so this is the 
+        recommended size to compare runtimes. If a different matrix size is selected, keep 
+        in mind that it must be a multiple of 48 for the mpi code.<br>
         *We've written custom scripts to make it easier to compile and run
         our code. Sequential is used in the examples, but replace script names appropriately.
         <br><br>
@@ -39,30 +42,51 @@ layout: home
         <br>
         Run using:
         <ul style="list-style-type:none; font-family:'Courier New',Courier,monospace">
-            <li>./r_seq [size] [nthreads (openMP only)]</li>
+            <li>./r_seq &ltsize&gt &ltnthreads(openMP only)&gt &ltprint(optionl)&gt</li>
         </ul>
         <p>
             *size = desired matrix size, nthreads = number of threads to use
-            To change MPI ntasks, edit mpi_slurm.sh first
+            <br>*To change MPI ntasks, edit mpi_slurm.sh first
+            <br>*1 = print, default 0 = not print, matrix must be 9x9 or smaller
         </p>
         
 
     
     <br><h2 style="font-weight: bold">Sequential</h2>
-    <a href="https://seclay2.github.io/LUDecomposition/files/Sequential.zip" >Download Sequential Code</a><br>
+    <a href="https://seclay2.github.io/LUDecomposition/files/Sequential.zip" >Download Sequential Code</a><br><br>
     <p>
+        Our sequential baseline in C++. This performs row reductions on matrix a, slowly 
+        turning it into matrix U, while storing the coefficient multiplies to fill in matrix 
+        L. LU decomposition on a matrix of size 1920 should take around 23 seconds, and size 
+        3840 will take around 3 minutes. <br><br>
+        Input arguments: &ltmatrix size&gt &ltprint&gt <br>
+        See <b>How to Run</b> above to compile and run code.<br><br>
+        <b>Results:</b><br>
         <img src="https://seclay2.github.io/LUDecomposition/images/seq.png" width="500"></img>
     </p>
 
     <br><h2 style="font-weight: bold">OpenMP</h2>
-    <a href="https://seclay2.github.io/LUDecomposition/files/OpenMP.zip" >Download OpenMP Code</a><br>
+    <a href="https://seclay2.github.io/LUDecomposition/files/OpenMP.zip" >Download OpenMP Code</a><br><br>
     <p>
+        Uses shared matrices and dynamic scheduling to perform the LU decomposition. Using 16 threads 
+        with a matrix size of 3840 this should take around 9 seconds, and with 48 threads should take 
+        around 5 seconds.<br><br>
+        Input arguments: &ltmatrix size&gt &ltthread count&gt &ltprint&gt <br>
+        See <b>How to Run</b> above to compile and run code.<br><br>
+        <b>Results:</b><br>
         <img src="https://seclay2.github.io/LUDecomposition/images/openmp.png" width="500"></img>
     </p>
 
     <br><h2 style="font-weight: bold">MPI</h2>
-    <a href="https://seclay2.github.io/LUDecomposition/files/MPI.zip" >Download MPI Code</a><br>
+    <a href="https://seclay2.github.io/LUDecomposition/files/MPI.zip" >Download MPI Code</a><br><br>
     <p>
+        Uses MPI_Bcast to send coefficient multipliers to processes. Also uses MPI_Send and MPI_Recv 
+        to send data portions of matrix a to processes. With a mtrix size of 3840, using ntasks=24 and 
+        tasks-per-node=24, this should take around 8 seconds. With ntasks=96 and tasks-per-node=24 this 
+        should run in under 3 seconds.<br><br>
+        Input arguments: &ltmatrix size&gt &ltntasks&gt &lttasks-per-node&gt &ltprint&gt <br>
+        See <b>How to Run</b> above to compile and run code.<br><br>
+        <b>Results:</b><br>
         <img src="https://seclay2.github.io/LUDecomposition/images/mpi.png" width="500"></img>
     </p>
 
