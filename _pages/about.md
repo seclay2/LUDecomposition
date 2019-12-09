@@ -22,7 +22,7 @@ Scott Clay<br/>
 
 Download the project presentation here. [Download](https://seclay2.github.io/LUDecomposition/files/presentation.pdf)  
   
-Download the code files here. [Download](https://seclay2.github.io/LUDecomposition/files/allcode.zip)
+Download the code files here. [Download](https://seclay2.github.io/LUDecomposition/files/LUDecomposition_Team2.zip)
 
 You can find the source code for the site and the project code on GitHub:
 [LUDecomp](https://github.com/seclay2/LUDecomposition)
