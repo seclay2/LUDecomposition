@@ -115,7 +115,7 @@ layout: home
     <a href="https://seclay2.github.io/LUDecomposition/files/MPI.zip" >Download MPI Code</a><br><br>
     <p>
         Uses MPI_Bcast to send coefficient multipliers to processes. Also uses MPI_Send and MPI_Recv 
-        to send data portions of matrix a to processes. With a mtrix size of 3840, using ntasks=24 and 
+        to send data portions of matrix a to processes. With a matrix size of 3840, using ntasks=24 and 
         tasks-per-node=24, this should take around 8 seconds. With ntasks=96 and tasks-per-node=24 this 
         should run in under 3 seconds.
     </p>
@@ -134,7 +134,7 @@ layout: home
     <br>
     Run using:<br>
     <ul style="list-style-type:none; font-family:'Courier New',Courier,monospace">
-        <li>./r_&ltplatform&gt &ltsize&gt &ltprint(optional)&gt</li>
+        <li>./r_mpi &ltsize&gt &ltprint(optional)&gt</li>
         <br>
         <li style="font-family:Arial, Helvetica, sans-serif; font-size:small">Notes:
             <ul>
@@ -159,6 +159,36 @@ layout: home
     <p>
 
     </p>
-    
+    <br>
+    <b>How to run:</b>
+    <br><br>
+    Give permissions to custom scripts:
+    <ul style="list-style-type:none; font-family:'Courier New',Courier,monospace">
+        <li>chmod 755 c_gpu r_gpu</li>
+    </ul>
+    <br>
+    Compile source code using:<br>
+    <ul style="list-style-type:none; font-family:'Courier New',Courier,monospace">
+        <li>./c_gpu</li>
+    </ul>
+    <br>
+    Run using:<br>
+    <ul style="list-style-type:none; font-family:'Courier New',Courier,monospace">
+        <li>./r_gpu &ltsize&gt &ltseed&gt &ltprint(optional)&gt</li>
+        <br>
+        <li style="font-family:Arial, Helvetica, sans-serif; font-size:small">Notes:
+            <ul>
+                <li>1 = print, 0 = not print (default), matrix must be 9x9 or smaller</li>
+                <li>We used 343 for the see, you may use any random positive integer</li>
+            </ul>
+        </li>
+    </ul>
+    <br>
+    When job is finished, check results using:
+    <ul style="list-style-type:none; font-family:'Courier New',Courier,monospace">
+        <li>cat slurm_output.&ltjob_id&gt</li>
+    </ul>
+    <br>
+    <b>Results:</b><br>
 
 </body>
