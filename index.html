@@ -13,9 +13,12 @@ layout: home
     <p>
         <br>Use the download links in each section to download a zipped folder of the 
         respective code files, or download all code with the link below.
-        <br>*(All code download option will be available when CUDA is completed)
+        <br><br>
+        <b style='color:red'>* At 5:10 PM on Mon 12/09/2019, the CUDA files were updated. We found a bug in processing for 
+            matrices larger than 1024. Please re-download the updated CUDA files for testing. </b>
+            <a href="https://seclay2.github.io/LUDecomposition/files/CUDA.zip" download>Download CUDA</a>
     </p>
-    <br><a style="color:#555555" href="javascript: void(0)" download>Download All Code</a><br>
+    <br><a href="https://seclay2.github.io/LUDecomposition/files/LUDecomposition_Team2.zip" download>Download All Code</a><br>
 
     <br><a href="https://seclay2.github.io/LUDecomposition/files/presentation.pdf" >Download Presentation</a><br>
 
@@ -23,31 +26,182 @@ layout: home
     <br>
     <h3 style="font-weight: bold">How to Run Code:</h3>
     <p>
-        After unzipping the folder and moving the contents to Heracles, 
-    </p>
-    <br><h2 style="font-weight: bold">Sequential</h2>
-    <a href="https://seclay2.github.io/LUDecomposition/files/Sequential.zip" >Download Sequential Code</a><br>
-    <p>
-        <img src="https://seclay2.github.io/LUDecomposition/images/seq.png" width="500"></img>
-    </p>
-
-    <br><h2 style="font-weight: bold">OpenMP</h2>
-    <a href="https://seclay2.github.io/LUDecomposition/files/OpenMP.zip" >Download OpenMP Code</a><br>
-    <p>
-        <img src="https://seclay2.github.io/LUDecomposition/images/openmp.png" width="500"></img>
-    </p>
-
-    <br><h2 style="font-weight: bold">MPI</h2>
-    <a href="https://seclay2.github.io/LUDecomposition/files/MPI.zip" >Download MPI Code</a><br>
-    <p>
-        <img src="https://seclay2.github.io/LUDecomposition/images/mpi.png" width="500"></img>
-    </p>
-
-    <br><h2 style="font-weight: bold">CUDA</h2>
-    <a style="color:#555555" href="javascript: void(0)" download>Download CUDA Code (In Progress)</a><br>
-    <p>
-
+        We found the best matrix size for comparison testing to be 3840, so this is the 
+        recommended size to compare runtimes. If a different matrix size is selected, keep 
+        in mind that it must be a multiple of 48 for the mpi code.<br>
+        We've written custom scripts to make it easier to compile and run
+        our code. Please see compile and run instructions for each platform in their respective
+        sections below.
+        <br><br>
     </p>
     
+    <br><h2 style="font-weight: bold">Sequential</h2>
+    <a href="https://seclay2.github.io/LUDecomposition/files/Sequential.zip" >Download Sequential Code</a><br><br>
+    <p>
+        Our sequential baseline in C++. This performs row reductions on matrix a, slowly 
+        turning it into matrix U, while storing the coefficient multiplies to fill in matrix 
+        L. LU decomposition on a matrix of size 1920 should take around 23 seconds, and size 
+        3840 will take around 3 minutes.
+    </p>
+    <b>How to run:</b>
+    <br><br>
+    Give permissions to custom scripts:
+    <ul style="list-style-type:none; font-family:'Courier New',Courier,monospace">
+        <li>chmod 755 c_seq r_seq</li>
+    </ul>
+    Compile source code using:
+    <ul style="list-style-type:none; font-family:'Courier New',Courier,monospace">
+        <li>./c_seq</li>
+    </ul>
+    Run using:
+    <ul style="list-style-type:none; font-family:'Courier New',Courier,monospace">
+        <li>./r_seq &ltmatrix_size&gt &ltprint(optional)&gt</li>
+        <br>
+        <li style="font-family:Arial, Helvetica, sans-serif; font-size:small">Notes:
+                <ul>
+                    <li>1 = print, 0 = not print (default), matrix must be 9x9 or smaller</li>
+                </ul>
+            </li>
+    </ul>
+    <br>
+    When job is finished, check results using:
+    <ul style="list-style-type:none; font-family:'Courier New',Courier,monospace">
+        <li>cat slurm_output.&ltjob_id&gt</li>
+    </ul>
+    <br>
+    <b>Results:</b><br>
+    <img src="https://seclay2.github.io/LUDecomposition/images/seq.png" width="500"></img>
+    <br><br>
+
+
+    <br><h2 style="font-weight: bold">OpenMP</h2>
+    <a href="https://seclay2.github.io/LUDecomposition/files/OpenMP.zip" >Download OpenMP Code</a><br><br>
+    <p>
+        Uses shared matrices and dynamic scheduling to perform the LU decomposition. Using 16 threads 
+        with a matrix size of 3840 this should take around 9 seconds, and with 48 threads should take 
+        around 5 seconds.
+    </p>
+    <b>How to run:</b>
+    <br><br>
+    Give permissions to custom scripts:
+    <ul style="list-style-type:none; font-family:'Courier New',Courier,monospace">
+        <li>chmod 755 c_omp r_omp</li>
+    </ul>
+    <br>
+    Compile source code using:
+    <ul style="list-style-type:none; font-family:'Courier New',Courier,monospace">
+        <li>./c_omp</li>
+    </ul>
+    <br>
+    Run using:
+    <ul style="list-style-type:none; font-family:'Courier New',Courier,monospace">
+        <li>./r_omp &ltmatrix_size&gt &ltnthreads&gt &ltprint(optional)&gt</li>
+        <br>
+        <li style="font-family:Arial, Helvetica, sans-serif; font-size:small">Notes:
+                <ul>
+                    <li>1 = print, 0 = not print (default), matrix must be 9x9 or smaller</li>
+                    <li>nthreads is a value between 1 - 48</li>
+                </ul>
+            </li>
+    </ul>
+    <br>
+    When job is finished, check results using:
+    <ul style="list-style-type:none; font-family:'Courier New',Courier,monospace">
+        <li>cat slurm_output.&ltjob_id&gt</li>
+    </ul>
+    <br>
+    <b>Results:</b><br>
+    <img src="https://seclay2.github.io/LUDecomposition/images/openmp.png" width="500"></img>
+    <br><br>
+
+
+    <br><h2 style="font-weight: bold">MPI</h2>
+    <a href="https://seclay2.github.io/LUDecomposition/files/MPI.zip" >Download MPI Code</a><br><br>
+    <p>
+        Uses MPI_Bcast to send coefficient multipliers to processes. Also uses MPI_Send and MPI_Recv 
+        to send data portions of matrix a to processes. With a matrix size of 3840, using ntasks=24 and 
+        tasks-per-node=24, this should take around 8 seconds. With ntasks=96 and tasks-per-node=24 this 
+        should run in under 3 seconds.
+    </p>
+    <br>
+    <b>How to run:</b>
+    <br><br>
+    Give permissions to custom scripts:
+    <ul style="list-style-type:none; font-family:'Courier New',Courier,monospace">
+        <li>chmod 755 c_mpi r_mpi</li>
+    </ul>
+    <br>
+    Compile source code using:<br>
+    <ul style="list-style-type:none; font-family:'Courier New',Courier,monospace">
+        <li>./c_mpi</li>
+    </ul>
+    <br>
+    Run using:<br>
+    <ul style="list-style-type:none; font-family:'Courier New',Courier,monospace">
+        <li>./r_mpi &ltsize&gt &ltprint(optional)&gt</li>
+        <br>
+        <li style="font-family:Arial, Helvetica, sans-serif; font-size:small">Notes:
+            <ul>
+                <li>1 = print, 0 = not print (default), matrix must be 9x9 or smaller</li>
+                <li>Change ntasks and tasks-per-node in mpi_slurm.sh (default values are ntasks=48, tasks-per-node=24)</li>
+                <li>Matrix size must be a multiple of ntasks</li>
+            </ul>
+        </li>
+    </ul>
+    <br>
+    When job is finished, check results using:
+    <ul style="list-style-type:none; font-family:'Courier New',Courier,monospace">
+        <li>cat slurm_output.&ltjob_id&gt</li>
+    </ul>
+    <br>
+    <b>Results:</b><br>
+    <img src="https://seclay2.github.io/LUDecomposition/images/mpi.png" width="500"></img>
+    <br><br>
+
+    <br><h2 style="font-weight: bold">CUDA</h2>
+    <a href="https://seclay2.github.io/LUDecomposition/files/CUDA.zip" download>Download CUDA Code</a><br>
+    
+    <p>
+        With matrix size 3840, decomposition should be completed in about 950 ms. It will take longer to run
+        than the runtime shown in results due to memory allocation and communication between the CPU and GPU before
+        and after processing.
+    </p>
+    <br>
+    <b>How to run:</b>
+    <br><br>
+    Give permissions to custom scripts:
+    <ul style="list-style-type:none; font-family:'Courier New',Courier,monospace">
+        <li>chmod 755 c_gpu r_gpu</li>
+    </ul>
+    <br>
+    Compile source code using:<br>
+    <ul style="list-style-type:none; font-family:'Courier New',Courier,monospace">
+        <li>./c_gpu</li>
+    </ul>
+    <br>
+    Run using:<br>
+    <ul style="list-style-type:none; font-family:'Courier New',Courier,monospace">
+        <li>./r_gpu &ltsize&gt &ltseed&gt &ltprint(optional)&gt</li>
+        <br>
+        <li style="font-family:Arial, Helvetica, sans-serif; font-size:small">Notes:
+            <ul>
+                <li>1 = print, 0 = not print (default), matrix must be 9x9 or smaller</li>
+                <li>We used 343 for the seed, you may use any random positive integer</li>
+            </ul>
+        </li>
+    </ul>
+    <br>
+    When job is finished, check results using:
+    <ul style="list-style-type:none; font-family:'Courier New',Courier,monospace">
+        <li>cat slurm_output.&ltjob_id&gt</li>
+    </ul>
+    <br>
+    <b>Results:</b><br>
+    <img src="https://seclay2.github.io/LUDecomposition/images/cuda.png" width="500"></img>
+    <br><br>
+
+    <br><h2 style="font-weight: bold">Overall Results</h2>
+    <img src="https://seclay2.github.io/LUDecomposition/images/overall.png" width="500"></img>
+    <br><br>
 
 </body>
